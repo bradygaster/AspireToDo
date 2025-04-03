@@ -12,11 +12,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Aspire.Hosting.AppHost" Version="9.1.0-preview.1.24557.1" />
+    <PackageReference Include="Aspire.Hosting.AppHost" Version="9.1.0" />
+    <PackageReference Include="Aspire.Hosting.SqlServer" Version="9.1.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\TodoAPI\TodoAPI.csproj" />
+    <ProjectReference Include="..\TodoApp.MigrationService\TodoApp.MigrationService.csproj" />
   </ItemGroup>
 
 </Project>

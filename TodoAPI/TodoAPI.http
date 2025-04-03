@@ -1,6 +1,83 @@
-@TodoAPI_HostAddress = http://localhost:5277
-
-GET {{TodoAPI_HostAddress}}/weatherforecast/
-Accept: application/json
+@TodoAPI_HostAddress = https://localhost:7005
 
 ###
+
+# Todo API Endpoints
+
+### Get all todos (initially empty)
+GET {{TodoAPI_HostAddress}}/api/todos
+Accept: application/json
+
+### Create todo 1
+POST {{TodoAPI_HostAddress}}/api/todos
+Content-Type: application/json
+
+{
+    "description": "Start the API",
+    "isComplete": false
+}
+
+### Create todo 2
+POST {{TodoAPI_HostAddress}}/api/todos
+Content-Type: application/json
+
+{
+    "description": "Test the API",
+    "isComplete": false
+}
+
+### Create todo 3
+POST {{TodoAPI_HostAddress}}/api/todos
+Content-Type: application/json
+
+{
+    "description": "Add the front end",
+    "isComplete": false
+}
+
+### Create todo 4
+POST {{TodoAPI_HostAddress}}/api/todos
+Content-Type: application/json
+
+{
+    "description": "Wire the front end up to the backend API",
+    "isComplete": false
+}
+
+### Create todo 5
+POST {{TodoAPI_HostAddress}}/api/todos
+Content-Type: application/json
+
+{
+    "description": "Deploy the app to Azure",
+    "isComplete": false
+}
+
+### Create todo 5 again, by accident
+POST {{TodoAPI_HostAddress}}/api/todos
+Content-Type: application/json
+
+{
+    "description": "Deploy the app to Azure",
+    "isComplete": false
+}
+
+### Get all todos (after creation)
+GET {{TodoAPI_HostAddress}}/api/todos
+Accept: application/json
+
+### Get todo by ID
+GET {{TodoAPI_HostAddress}}/api/todos/1
+Accept: application/json
+
+### Update a todo (mark as complete)
+PUT {{TodoAPI_HostAddress}}/api/todos/1
+Content-Type: application/json
+
+{
+    "description": "Finish the API",
+    "isComplete": true
+}
+
+### Delete a todo
+DELETE {{TodoAPI_HostAddress}}/api/todos/6
