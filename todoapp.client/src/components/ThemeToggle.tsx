@@ -7,10 +7,15 @@ const ThemeToggle: React.FC = () => {
 
   return (
     <Button 
-      variant={theme === 'light' ? 'outline-dark' : 'outline-light'} 
+      variant="outline-light" 
       onClick={toggleTheme}
       className="me-2"
       size="sm"
+      style={{
+        backgroundColor: 'var(--aspire-purple-main)',
+        borderColor: 'var(--aspire-purple-lighter)',
+        color: 'white'
+      }}
       aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
       title={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
     >

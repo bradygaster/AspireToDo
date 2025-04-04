@@ -94,7 +94,15 @@ const TodoList: React.FC = () => {
           <Card className="shadow-sm">
             <Card.Header className="bg-primary text-white py-3">
               <div className="d-flex justify-content-between align-items-center">
-                <h1 className="m-0">Todo List</h1>
+                <div className="d-flex align-items-center">
+                  <img 
+                    src="/aspire-logo-256.png" 
+                    alt="Aspire Logo" 
+                    height="40" 
+                    className="me-3" 
+                  />
+                  <h1 className="m-0">Aspire Todo</h1>
+                </div>
                 <ThemeToggle />
               </div>
             </Card.Header>
