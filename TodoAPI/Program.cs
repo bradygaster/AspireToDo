@@ -3,12 +3,16 @@ using TodoAPI.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
+//var frontend = Environment.GetEnvironmentVariable("services__todoapp-client__http__0") ?? "http://localhost:3000";
+var frontend = builder.Configuration["services__todoapp-client__http__0"] ?? "http://localhost:3000";
+
+
 // Add CORS support
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("ReactClientPolicy", policy =>
     {
-        policy.WithOrigins("http://localhost:3000")
+        policy.WithOrigins("http://localhost:3000", frontend)
               .AllowAnyHeader()
               .AllowAnyMethod();
     });
