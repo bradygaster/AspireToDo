@@ -4,7 +4,7 @@ module.exports = function(app) {
   app.use(
     '/api',
     createProxyMiddleware({
-      target: process.env.services__todoapi__https__0 || 'https://localhost:7005',
+      target: process.env.REACT_APP_API_URL || 'https://localhost:7005',
       changeOrigin: true,
       secure: false
     })
