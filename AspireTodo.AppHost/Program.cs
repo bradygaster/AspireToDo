@@ -12,15 +12,18 @@ var todoMigrations = builder.AddProject<Projects.TodoApp_MigrationService>("migr
 // Add the API, referencing SQL Server, but make it wait for the migration service
 var todoApi = builder.AddProject<Projects.TodoAPI>("todoapi")
     .WaitFor(todoMigrations)
-    .WithReference(sqlServer);
+    .WithReference(sqlServer)
+    .WithExternalHttpEndpoints();
 
 // Add the React frontend app
 var frontend = builder.AddNpmApp("todoapp-client", "../todoapp.client")
     .WithReference(todoApi)
     .WaitFor(todoApi)
+    .WithEnvironment("REACT_APP_API_URL", todoApi.GetEndpoint("https"))
     .WithEnvironment("BROWSER", "none") // Disable opening browser on npm start
     .WithHttpEndpoint(env: "PORT")
-    .WithExternalHttpEndpoints();
+    .WithExternalHttpEndpoints()
+    .PublishAsDockerFile();
 
 todoApi.WithReference(frontend); // cors
 
