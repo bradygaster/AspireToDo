@@ -1,8 +1,7 @@
 import axios from 'axios';
 import { Todo } from '../models/Todo';
 
-// Use environment variable with fallback to local development URL
-const API_URL = process.env.REACT_APP_API_URL + '/api/todos' || 'https://localhost:7005/api/todos';
+var API_URL = '/api/todos';
 
 export const TodoService = {
   getAllTodos: async (): Promise<Todo[]> => {

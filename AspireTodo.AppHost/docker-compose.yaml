@@ -1,0 +1,58 @@
+services:
+  sql-server:
+    image: "mcr.microsoft.com/mssql/server:2022-latest"
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "${SQL_SERVER_PASSWORD}"
+    ports:
+      - "8000:1433"
+    networks:
+      - "aspire"
+  migrations:
+    image: "${MIGRATIONS_IMAGE}"
+    environment:
+      OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EXCEPTION_LOG_ATTRIBUTES: "true"
+      OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EVENT_LOG_ATTRIBUTES: "true"
+      OTEL_DOTNET_EXPERIMENTAL_OTLP_RETRY: "in_memory"
+      ConnectionStrings__TodoDb: "Server=sql-server,1433;User ID=sa;Password=${SQL_SERVER_PASSWORD};TrustServerCertificate=true;Initial Catalog=TodoDb"
+    depends_on:
+      sql-server:
+        condition: "service_started"
+    networks:
+      - "aspire"
+  todoapi:
+    image: "${TODOAPI_IMAGE}"
+    environment:
+      OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EXCEPTION_LOG_ATTRIBUTES: "true"
+      OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EVENT_LOG_ATTRIBUTES: "true"
+      OTEL_DOTNET_EXPERIMENTAL_OTLP_RETRY: "in_memory"
+      ASPNETCORE_FORWARDEDHEADERS_ENABLED: "true"
+      HTTP_PORTS: "8001"
+      ConnectionStrings__TodoDb: "Server=sql-server,1433;User ID=sa;Password=${SQL_SERVER_PASSWORD};TrustServerCertificate=true;Initial Catalog=TodoDb"
+      services__todoapp-client__http__0: "http://todoapp-client:8005"
+    ports:
+      - "8002:8001"
+      - "8004:8003"
+    depends_on:
+      migrations:
+        condition: "service_started"
+    networks:
+      - "aspire"
+  todoapp-client:
+    image: "${TODOAPP_CLIENT_IMAGE}"
+    environment:
+      NODE_ENV: "development"
+      services__todoapi__http__0: "http://todoapi:8001"
+      BROWSER: "none"
+      TODO_API_URL: "http://todoapi:8001"
+      PORT: "8005"
+    ports:
+      - "8008:80"
+    depends_on:
+      todoapi:
+        condition: "service_started"
+    networks:
+      - "aspire"
+networks:
+  aspire:
+    driver: "bridge"
