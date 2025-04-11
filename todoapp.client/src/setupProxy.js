@@ -1,13 +1,14 @@
 const { createProxyMiddleware } = require('http-proxy-middleware');
 
 module.exports = function(app) {
-  console.log('Setting up proxy for API requests...');
+  console.log('Setting up to proxy requests to ' + process.env.TODO_API_URL);
   app.use(
-    '/api',
+    '/api/todos',
     createProxyMiddleware({
-      target: process.env.TODO_API_URL || 'https://localhost:7005',
+      target: process.env.TODO_API_URL + '/api/todos' || 'https://localhost:7005/api/todos',
       changeOrigin: true,
-      secure: false
+      secure: false,
+      logLevel: 'debug' // Add this to see more detailed logs
     })
   );
   console.log('Proxy setup complete.')
