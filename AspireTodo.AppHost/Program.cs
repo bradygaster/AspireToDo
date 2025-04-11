@@ -20,7 +20,8 @@ var frontend = builder.AddNpmApp("todoapp-client", "../todoapp.client")
     .WaitFor(todoApi)
     .WithEnvironment("BROWSER", "none") // Disable opening browser on npm start
     .WithHttpEndpoint(env: "PORT")
-    .WithExternalHttpEndpoints();
+    .WithExternalHttpEndpoints()
+    .PublishAsDockerFile();
 
 todoApi.WithReference(frontend); // cors
 
