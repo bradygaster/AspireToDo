@@ -15,16 +15,12 @@ var todoApi = builder.AddProject<Projects.TodoAPI>("todoapi")
     .WithReference(sqlServer)
     .WithExternalHttpEndpoints();
 
-// Add the React frontend app
-var frontend = builder.AddNpmApp("todoapp-client", "../todoapp.client")
+builder.AddNpmApp("frontend", "../AspireToDo")
     .WithReference(todoApi)
     .WaitFor(todoApi)
-    .WithEnvironment("REACT_APP_API_URL", todoApi.GetEndpoint("https"))
-    .WithEnvironment("BROWSER", "none") // Disable opening browser on npm start
+    .WithEnvironment("BROWSER", "none")
     .WithHttpEndpoint(env: "PORT")
     .WithExternalHttpEndpoints()
     .PublishAsDockerFile();
-
-todoApi.WithReference(frontend); // cors
 
 builder.Build().Run();
