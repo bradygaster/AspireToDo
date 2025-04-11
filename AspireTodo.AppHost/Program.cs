@@ -16,8 +16,7 @@ var todoApi = builder.AddProject<Projects.TodoAPI>("todoapi")
     .WithExternalHttpEndpoints()
     .WithReference(sqlServer);
 
-// Add the React frontend app
-var frontend = builder.AddNpmApp("todoapp-client", "../todoapp.client")
+builder.AddNpmApp("frontend", "../AspireToDo")
     .WithReference(todoApi)
     .WaitFor(todoApi)
     .WithEnvironment("BROWSER", "none") // Disable opening browser on npm start
